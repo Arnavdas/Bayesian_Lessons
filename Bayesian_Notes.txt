@@ -1,0 +1,83 @@
+Notes to quickly catch up :
+
+Chap 1 : Bayesian Inference :
+
+- A conceptual model is a representation of a system, made of the composition of concepts that are used to help people know, understand, or simulate the object or process the model represents.
+
+- These same ideas are relevant in Bayesian modeling. Building a model requires a combination of domain expertise and statistical skill to incorporate knowledge into some computable objectives and determine the usefulness of the result. Data is the raw material, and statistical distributions are the main mathematical tools to shape the statistical model. It takes a combination of domain expertise and statistical expertise to achieve a useful result.
+
+- A posterior probability, in Bayesian statistics, is the revised or updated probability of an event occurring after taking into consideration new information. The posterior probability is calculated by updating the prior probability using Bayes' theorem.
+
+- Likelihood : In non-technical parlance, "likelihood" is usually a synonym for "probability," but in statistical usage there is a clear distinction in perspective: the number that is the probability of some observed outcomes given a set of parameter values is regarded as the likelihood of the set of parameter values given the observed outcomes. 
+
+- Likelihood vs Probability : Probability quantifies anticipation (of outcome), likelihood quantifies trust (in model).
+Suppose somebody challenges us to a 'profitable gambling game'. Then, probabilities will serve us to compute things like the expected profile of your gains and loses (mean, mode, median, variance, information ratio, value at risk, gamblers ruin, and so on). In contrast, likelihood will serve us to quantify whether we trust those probabilities in the first place; or whether we 'smell a rat'.(cool Sources : https://stats.stackexchange.com/a/56035/241566, https://stats.stackexchange.com/a/2647/241566)
+
+
+- Likelihood vs PDF (probabilty density func) : likelihood is not the probability of the parameter value being correct or anything like that - it is the probability (density) of the data given the parameter value, which is a completely different thing. Therefore one should not expect the likelihood function to behave like a probability density. (From : https://stats.stackexchange.com/a/31241/241566)
+
+- Posterior = Prior * Likelihood
+
+- Prior probability represents what is originally believed before new evidence is introduced, and posterior probability takes this new information into account.
+
+- Bayesian models, computational or otherwise, have two defining characteristics:
+
+    * Unknown quantities are described using probability distributions. We call these quantities parameters.
+
+    * Bayes’ theorem is used to update the values of the parameters conditioned on the data. We can also see this process as a reallocation of probabilities.
+
+- At a high-level we can describe the above process of constructing Bayesian modeling in 3 steps.
+
+    * Given some data and some assumptions on how this data could have been generated, we design a model by combining and transforming random variables.
+
+    * We use Bayes’ theorem to condition our models to the available data. We call this process inference, and as a result we obtain a posterior distribution. We hope the data reduces the uncertainty for possible parameter values, though this is not a guaranteed of any Bayesian model.
+
+    * We criticize the model by checking whether the model makes sense according to different criteria, including the data and our expertise on the domain-knowledge. Because we generally are uncertain about the models themselves, we sometimes compare several models.
+
+- Bayesian INference : In colloquial terms, inference is associated with obtaining conclusions based on evidence and reasoning. Bayesian inference is a particular form of statistical inference based on combining probability distributions in order to obtain other probability distributions.
+
+- The posterior distribution is the central object in Bayesian statistics, but it is not the only one. Besides making inferences about parameter values, we may want to make inferences about data. This can be done by computing the prior predictive distribution.
+
+- We can use samples from the prior predictive distribution as a way to evaluate and calibrate our models using domain-knowledge. For example, we may ask questions such as “Is it OK for a model of human heights to predict that a human is -1.5 meters tall?”. Even before measuring a single person, we can recognize the absurdness of this query. 
+
+- Adopting a probabilistic perspective for modeling leads to the mantra models generate data. We consider this concept to be of central importance. Once you internalize it, all statistical models become much more clear, even non-Bayesian ones. This mantra can help to create new models; if models generate data, we can create suitable models for our data just by thinking of how the data could have been generated! Additionally, this mantra is not just an abstract concept. We can adopt a concrete representation in the form of the prior predictive distribution.
+
+- Because posteriors are derived from the model and the observed data only, we are not making statements based on non-observed, but potentially observed realizations of the underlying data-generating process.
+
+- There are many algorithms that can be used as Universal Inference Engines. Probably the most widely adopted and powerful is the family of Markov chain Monte Carlo methods (MCMC). At a very high level, all MCMC methods approximate the posterior distribution using samples. The samples from the posterior distribution are generated by accepting or rejecting samples from a different distribution called the proposal distribution. By following certain rules and under certain assumptions, we have theoretical guarantees that we will get samples that are a good approximation of the posterior distribution. Thus, MCMC methods are also known as samplers. All these methods require to be able to evaluate the prior and likelihood at a given parameter value. That is, even when we do not know what the entire posterior looks like, we can ask for its density point-wise.
+
+- One such like above is Metropolis Hasting method :  equation 1.9  
+
+- When we use Markov chain Monte Carlo Methods to do Bayesian inference, we typically refer to them as MCMC samplers. At each iteration we draw a random sample from the sampler, so naturally we refer to the output from MCMC as samples or draws. Since MCMC draws samples sequentially we also say we get a chain of draws as result, or just MCMC chain for short. 
+
+- HDI : The HDI(highest density interval) is the shortest interval containing a given probability density, The HDI is a common choice in Bayesian statistics and round values like 50% or 95% are commonplace. But ArviZ uses 94% (or 0.94) as the default value. The reason for this choice is that 94 is close to the widely used 95 but is different enough to serve as a friendly reminder that there is nothing special about these round values. Ideally you should choose a value that fits your needs, or at least acknowledge that you are using a default.
+
+- Prior predictive distribution can be computed just from the model while the posterior predictive distribution we need a model and posterior
+
+- Having to choose a prior distribution is portrayed both as a burden and as a blessing. We choose to affirm that is a necessity, if you are not choosing your priors someone else is doing it for you. Priors are just one form of assumption.
+
+- Conjugate : A prior is conjugate to a likelihood if the posterior belongs to the same family of distributions as the prior. For example, if the likelihood is Poisson and the prior Gamma, then the posterior will also be a Gamma distribution. 
+
+- Conjugate : From a purely mathematical perspective, conjugate priors are the most convenient choice as they allow us to calculate the posterior distribution analytically with “pen and paper”, no complex computation required. From a modern computational perspective, conjugate priors are generally not better than alternatives, the main reason being that modern computational methods allow us to perform inference with virtually any choice of priors and not just those that are mathematically convenient.
+
+- In the limit of infinite data, the posteriors (irrespective of priors used to compute those posteriors) will have all its density at theta_cap = y/n (success_freq/no_of_trials)
+
+- The posterior mode is often called the maximum a posteriori (MAP) value.
+
+- A prior β(1,1) is equivalent to having two trials with 1 success and 1 failure. Conceptually, the shape of the Beta distribution is controlled by parameter α and β, the observed data updates the prior so that it shifts the shape of the Beta distribution closer and more narrowly to the majority of observations.
+
+- Objective Priors : In the absence of prior information, it sounds reasonable to follow the principle of indifference also known as the principle of insufficient reason. This principle basically says that if you do not have information about a problem then you do not have any reason to believe one outcome is more likely than any other. In the context of Bayesian statistics this principle has motivated the study and use of objective priors. These are systematic ways of generating priors that have the least possible influence on a given analysis.
+
+- Objective Priors : The champions of ascetic statistics favor objective priors as these priors eliminate the subjectivity from prior elicitation. Of course this does not remove other sources of subjectivity such as the choice of the likelihood, the data selection process, the choice of the problem being modeled or investigated, and a long et cetera.
+
+- Jefrey's Prior : One procedure to obtain objective priors is known as Jeffreys’ prior (JP). These type of priors are often referred as non-informative even when priors are always informative in some way. A better description is to say that JPs have the property of being invariant under reparametrization, i.e. writing an expression in a different but mathematically equivalent way.
+
+- A JP(Jefrey's Prior) can be improper prior, meaning that it does not integrate to 1. For example, the JP for the mean of a Gaussian distribution of known variance is uniform over the entire real line. Improper priors are fine as long as we verify that the combination of them with a likelihood produces a proper posterior distribution, that is one integrating to 1. Also notice that we can not draw random samples from improper priors (i.e., they are non-generative) this can invalidate many useful tools that allow us to reason about our model.
+
+- JPs(Jefrey's Priors) are not the only way to obtain an objective prior. Another possible route is to obtain a prior by maximizing the expected Kullback-Leibler divergence (see Section Kullback-Leibler Divergence) between the prior and posterior. These kind of priors are known as Bernardo reference priors. 
+
+- Bernardo reference priors : They are objective as these are the priors that allow the data to bring the maximal amount of information into the posterior distribution. Bernardo reference priors and Jeffreys’ prior do not necessarily agree. Additionally, objective priors may not exist or be difficult to derive for complicated models.
+
+- Maximum Entropy Pairs : Yet another way to justify a choice of priors is to pick the prior with the highest entropy. If we are totally indifferent about the plausible values then such prior turns out to be the Uniform distribution over the range on plausible values, But what about when we are not completely indifferent about the plausible values a parameter can take ? For example, we may know our parameter is restricted to the interval [0, ∞). Can we obtain a prior that has maximum entropy while also satisfying a given constraint? Yes we can and that is exactly the idea behind maximum entropy priors.
+
+- In order to obtain a maximum entropy prior we need to solve an optimization problem taking into account a set of constraints. Mathematically this can be done using what is known as Lagrangian multipliers.
